@@ -13,5 +13,7 @@ const Router = () => {
     </BrowserRouter>
   )
 }
+// BrowserRouter > Routes > Route 순서 기억하자!
+// useParams을 사용했기 때문에 id만 불러올 수 있어서 /:id로 쓸수있다
 
 export default Router;
