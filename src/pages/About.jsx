@@ -1,8 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect , useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { DetailTodo } from '../redux /modules/Todos';
+import Modal from '../components/Modal';
 
 function About () {
   const dispatch = useDispatch();
@@ -17,12 +18,39 @@ function About () {
     dispatch ( DetailTodo(id) );
   }, [dispatch, id]);
 
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
   return (
     <StContainer>
-      <Stdeheader>
+      
+      {/* <Stdeheader>
         <div> 🔴 🟡 🟢 My Todo List </div>
         <div> React ➕ ❏ </div>
+      </Stdeheader> */}
+      
+      <Stdeheader> 
+        <React.Fragment>
+        <div> 🔴 🟡 🟢 My Todo List </div>
+        {/* <div> React ➕ ❏ </div> */}
+        
+          <Stmodalbtn onClick={openModal}>React ➕ </Stmodalbtn>
+          {/* header 부분에 텍스트를 입력한다. */}
+          <Stmodal open={modalOpen} close={closeModal} header="My Todo-list">
+            {/* Modal.js <main> {props.children} </main>에 내용이 입력된다.*/}
+            This is my Todo-list! 
+          </Stmodal>
+        </React.Fragment>
       </Stdeheader>
+  
+
+
       <StDetail>
         <Stdeid> {id} </Stdeid>
         <Stdetitle> {todo.title} </Stdetitle>
@@ -92,4 +120,22 @@ const Stprebtn = styled.button `
   border-radius: 10px;
   margin: 10px 20px;
   cursor : pointer;
+`
+const Stmodal = styled(Modal) `
+  display: none;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 99;
+  background-color: rgba(0, 0, 0, 0.6);
+`
+
+const Stmodalbtn = styled.button `
+  outline: none;
+  cursor: pointer;
+  border: 0;
+  font-size: 20px;
+  background-color : #e1e1e1;
 `
