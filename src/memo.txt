@@ -1,0 +1,4 @@
+redux : 리덕스 관련 코드를 모두 몰아 넣음
+config : 리덕스 설정 관련 파일 전부
+configStore : 중앙 state 관리소 -> 관련된 설정 코드
+modules : state의 그룹
