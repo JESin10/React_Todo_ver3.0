@@ -69,7 +69,8 @@ const Stclosebtn = styled.button`
   font-weight: 700;
   text-align: center;
   color: #999;
-  background-color: transparent;
+//  background-color: transparent;
+  border : none;
   cursor : pointer;
   `
 
@@ -79,4 +80,7 @@ const Stclosebtn = styled.button`
   background-color: #6c757d;
   border-radius: 5px;
   font-size: 13px;
+  border : none;
+  height : 35px;
+  cursor : pointer;
   `
