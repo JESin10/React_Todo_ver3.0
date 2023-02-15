@@ -109,13 +109,16 @@ const StTitle = styled.div `
   font-weight: bold;
   padding: 10px 0px;
   text-align-last : start;
-  white-space: pre-wrap;
+  word-wrap: break-word;
 `
 
 const StContent = styled.div `
   font-size: 15px;
   padding: 10px 0px;
+  text-align-last : start;
+  word-wrap: break-word;
 `
+
 const StEditeBtn = styled.button `
   width : 80px;
   height: 30px;
@@ -136,5 +139,4 @@ const StDeleteBtn = styled.button `
   color:  #990000;
   border: none;  
   cursor : pointer;
-
 `

@@ -102,12 +102,16 @@ const Stdetitle = styled.div `
   font-size : 35px;
   font-weight : bold;
   padding: 10px 20px;
+  text-align-last : start;
+  word-wrap: break-word;
 `
 const Stdecontent = styled.div `
   /* background-color : greenyellow; */
   font-size : 25px;
   color : #717171;
   padding: 10px 20px;
+  text-align-last : start;
+  word-wrap: break-word;
 `
 
 const Stprebtn = styled.button `
