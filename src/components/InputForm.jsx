@@ -1,20 +1,32 @@
 import React, {useEffect, useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { __addTodoThunk, __getTodoThunk } from '../redux /modules/Todos'
-import nextId from "react-id-generator";
 import styled from 'styled-components'
+import Button from '../element/Button';
+import { useNavigate } from 'react-router-dom';
 
 function InputForm () {
-
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-  const [newTodo, setNewTodo] = useState({
-    username : '',
+  const {isSuccess} = useSelector((state) => state.todos);
+  const res = useSelector((state) => state.todos);
+  console.log(res.isSuccess)
+
+  const [newTodo, setNewTodo] = useState(
+    {username : '',
     title : '',
     content : '',
-    isDone : false
-  });
+    // isSuccess : false,
+    }
+  );
   
+  // useEffect(() => {
+  //   if(!isSuccess) return;
+  //   if(isSuccess) navigate('/list');
+  //   return () => dispatch(__getTodoThunk(isSuccess));
+  // },[dispatch, isSuccess, navigate])
+
   const onChangeHandler = (event) => {
     const {name, value} = event.target ;
     setNewTodo ({...newTodo, [name]: value});
@@ -31,82 +43,93 @@ function InputForm () {
       username : '',
       title : '',
       content :'',
-      isDone : false,
+      // isSuccess : false,
     });
   };
 
   return (
     <StFormContainer onSubmit={onSubmitHandler} >
+      <div>
         <StLabel> Name </StLabel> 
           <StInput
             type ='text'
             name = 'username'
             value = {newTodo.username}
             onChange = {onChangeHandler} 
-            />
 
+            />
         <StLabel> Title </StLabel>
           <StInput
             type ='text'
             name = 'title'
             value = {newTodo.title}
             onChange = {onChangeHandler}
+
             /> 
+      </div> 
 
-
-        <StLabel> Content </StLabel>
-          <textarea
-            type ='text'
-            name = 'content'
-            value = {newTodo.content}
-            onChange = {onChangeHandler}
-          />
-
-      <StButton> Add </StButton>
+      <StLabel> Content </StLabel>
+      <div>
+        <StContentArea
+          type ='text'
+          name = 'content'
+          value = {newTodo.content}
+          onChange = {onChangeHandler}
+        />
+      </div>
+      <StbtnContainer>
+      <Button size='small_ver2'> Add Todo </Button>
+      <Button size='small_ver2' onClick={()=> {navigate("/list");}}> Go to Todo-List ↩︎ </Button>
+      </StbtnContainer>
     </StFormContainer>
     )
 }
 
 export default InputForm;
-// const AREA = styled.textarea`
-//   overflow-wrap: break-word;
-// `
+
 const StFormContainer = styled.form `
   font-size: 30px;
   align-items: center;
   font-weight: bold;
   margin: 10px;
-  display: flex;
+  /* display: flex; */
   gap: 15px;
-  /* direction : column; */
   /* height: 100%;
   width : 100%; */
 `;
 
-const StButton = styled.button `
-  width : 80px;
-  height: 50px;
-  margin: 5px;
-  border-radius: 30px;
-  background-color: #dddddd;
-  border: none;
-  color: gray;
-  font-size: 20px;
-  cursor : pointer;
-`;
+const StLabel = styled.label `
+  font-weight : bold;
+  font-size : 25px;
+  padding : 30px
+`
 
 const StInput = styled.input `
-  /* width : 350px;
-  height: 30px; */
+  width : 400px;
+  height: 30px;
   border-radius: 30px;
   padding: 10px;
   margin: 10px;
   background-color: #dddddd;
   border: none;
+  font-size : 20px;
 `
 
-const StLabel = styled.label `
-  font-weight : bold;
-  font-size : 25px;
-  padding : 10px
+const StContentArea = styled.textarea`
+  overflow-wrap: break-word;
+  font-size : 30px;
+  height : 30rem;
+  width : 63rem;
+  border : none;
+  border-radius : 20px;
+  padding : 20px;
+  margin : 20px auto;
+  display : block;
+
+` 
+
+const StbtnContainer = styled.div`
+  display : flex;
+  text-align : center;
+  padding : 20px;
 `

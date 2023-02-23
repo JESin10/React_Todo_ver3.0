@@ -6,7 +6,7 @@ export const __getTodoThunk = createAsyncThunk(
   "GET_TODO",
   async(payload, thunkAPI) => {
     try {
-      const {data} = await axios.get("http://localhost:4000/todos");
+      const {data} = await axios.get(`${process.env.REACT_APP_SERVER_URL}/todos`);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -19,7 +19,7 @@ export const __addTodoThunk = createAsyncThunk(
   "ADD_TODO",
   async(payload, thunkAPI) => {
     try {
-      const {data} = await axios.post("http://localhost:4000/todos", payload);
+      const {data} = await axios.post(`${process.env.REACT_APP_SERVER_URL}/todos`, payload);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -33,7 +33,7 @@ export const __deleteTodoThunk = createAsyncThunk(
   async(payload, thunkAPI) => {
     try {
       // const response = axios.delete(`http://localhost:4000/todos/${payload}`);
-      axios.delete(`http://localhost:4000/todos/${payload}`);
+      axios.delete(`${process.env.REACT_APP_SERVER_URL}/todos/${payload}`);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -46,7 +46,7 @@ export const __getTodoAboutThunk = createAsyncThunk(
   "GET_TODO_ABOUT",
   async(payload, thunkAPI) => {
     try {
-      const {data} = await axios.get(`http://localhost:4000/todos/${payload}`);
+      const {data} = await axios.get(`${process.env.REACT_APP_SERVER_URL}/todos/${payload}`);
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -59,7 +59,7 @@ export const __editTodoThunk = createAsyncThunk(
   "EDIT_TODO",
   async(payload, thunkAPI) => {
     try {
-      axios.patch(`http://localhost:4000/todos/${payload.id}`,payload);
+      axios.patch(`${process.env.REACT_APP_SERVER_URL}/todos/${payload.id}`,payload);
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -70,7 +70,8 @@ export const __editTodoThunk = createAsyncThunk(
 //초기 스테이트
 const initialState = {
   todos: [],
-  error : null
+  error : null,
+  // isSuccess : false,
 };
 
 // add, delete, edit => reducers, get => extrareducers
@@ -80,6 +81,7 @@ export const todoSlice = createSlice({
   reducers: {},
   extraReducers: {
     [__getTodoThunk.fulfilled] : (state, action) =>{
+      // state.isSuccess= true;
       state.todos = action.payload
     },
     [__addTodoThunk.fulfilled] : (state, action) =>{
@@ -101,4 +103,4 @@ export const todoSlice = createSlice({
 });
 
 export default todoSlice.reducer;
-export const { DeleteTodo, EditTodo } = todoSlice.actions;
+export const {} = todoSlice.actions;

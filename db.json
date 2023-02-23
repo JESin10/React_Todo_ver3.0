@@ -5,28 +5,21 @@
       "username": "one",
       "title": "title1",
       "content": "content1",
-      "isDone": false
+      "isSuccess": true
     },
     {
       "id": 2,
       "username": "two",
       "title": "title2",
-      "content": "",
-      "isDone": false
+      "content": "2",
+      "isSuccess": true
     },
     {
-      "username": "333",
-      "title": "333",
-      "content": "333",
-      "isDone": false,
+      "username": "three",
+      "title": "title3",
+      "content": "content3",
+      "isSuccess": true,
       "id": 3
-    },
-    {
-      "username": "44",
-      "title": "44",
-      "content": "44",
-      "isDone": false,
-      "id": 4
     }
   ]
 }

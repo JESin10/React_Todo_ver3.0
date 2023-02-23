@@ -9,7 +9,7 @@ function Input () {
     <Layout>
       <Header />
       <InputForm />
-      <ListForm />
+      {/* <ListForm /> */}
     </Layout>
   );
 };

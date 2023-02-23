@@ -2,6 +2,8 @@ import React, {useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components'
 import Modal from '../components/Modal';
+import Button from '../element/Button';
+
 
 function Header() {
   // useState를 사용하여 open상태를 변경한다. (open일때 true로 만들어 열리는 방식)
@@ -21,7 +23,7 @@ function Header() {
         <React.Fragment>
         <div> 🔴 🟡 🟢  My Todo List </div>
         {/* <div> React ➕ ❏ </div> */}
-        <Stmodalbtn onClick={openModal}> ℹ️ </Stmodalbtn>
+        <Button size='x_small' onClick={openModal}> ℹ️ </Button>
           {/* header 부분에 텍스트를 입력한다. */}
           <Stmodal open={modalOpen} close={closeModal} header="My Todo-list">
             {/* Modal.js <main> {props.children} </main>에 내용이 입력된다.*/}
@@ -31,7 +33,7 @@ function Header() {
       </StHeader>
       
       <StUnder>
-          <StBackbtn onClick={()=> {navigate("/");}}> Go to Main ↩︎ </StBackbtn>
+          <Button size='small_ver3' onClick={()=> {navigate("/");}}> Go to Main ↩︎ </Button>
       </StUnder>
     </div>
   )
@@ -68,22 +70,4 @@ const Stmodal = styled(Modal) `
   left: 0;
   z-index: 99;
   background-color: rgba(0, 0, 0, 0.6);
-`
-
-const Stmodalbtn = styled.button `
-  outline: none;
-  cursor: pointer;
-  border: 0;
-  font-size: 20px;
-  background-color : #e1e1e1;
-`
-
-const StBackbtn = styled.button `
-  font-size : 18px;
-  cursor: pointer;
-  border-radius: 10px;
-  border : none;
-  background-color : #f5f5f5;
-  font-weight : bolder;
-  color : gray;
 `

@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import { __getTodoAboutThunk, __editTodoThunk } from '../redux /modules/Todos';
 import Layout from '../components/Layout';
+import Button from '../element/Button';
 
 
 function About () {
@@ -69,12 +70,12 @@ function About () {
         <div name= 'btns'>
         {isEditMode? (
           <>
-            <Stprebtn className="editbitn" onClick={onSaveBtnHandler}> 저장 </Stprebtn>
+            <Button size ='medium' className="editbitn" onClick={onSaveBtnHandler}> 저장 </Button>
           </>
         ):(
           <>
-            <Stprebtn onClick={()=> {navigate("/list");}}> 이전으로 </Stprebtn>
-            <Stprebtn className="editbitn" onClick={()=> setIsEditMode(true)}> 수정 </Stprebtn>
+            <Button size ='medium' onClick={()=> {navigate("/list");}}> 이전으로 </Button>
+            <Button size ='medium' className="editbitn" onClick={()=> setIsEditMode(true)}> 수정 </Button>
           </>
         )}
         </div>
@@ -126,18 +127,6 @@ const Stdecontent = styled.div `
   padding: 10px 20px;
   text-align-last : start;
   word-wrap: break-word;
-`
-
-const Stprebtn = styled.button `
-  width : 8rem;
-  height: 40px;
-  font-size : 20px;
-  font-weight: bold;
-  color:  #009227;
-  border: none;  
-  border-radius: 10px;
-  margin: 0 30px 20px 30px;
-  cursor : pointer;
 `
 
 const StTxtarea = styled.textarea`

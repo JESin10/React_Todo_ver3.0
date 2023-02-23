@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import Header from './Header';
 import Layout from '../components/Layout';
+import Button from '../element/Button';
 
 function Main()  {
   const navigate = useNavigate();
@@ -12,10 +13,10 @@ function Main()  {
       <Header />
       <StHtag> MENU</StHtag>
       <Stdiv>
-        <StMaintbtn onClick={()=> {navigate("/input");}}> ✏️ Add Todo </StMaintbtn>
+        <Button size='large' onClick={()=> {navigate("/input");}}> ✏️ Add Todo </Button>
       </Stdiv>
       <Stdiv>
-        <StMaintbtn onClick={()=> {navigate("/list");}}> 🔎 All-Todo-List </StMaintbtn>
+        <Button size='large' onClick={()=> {navigate("/list");}}> 🔎 All-Todo-List </Button>
       </Stdiv>
     </Layout>
   )
@@ -29,22 +30,7 @@ const StHtag = styled.h1 `
   margin : 0px auto;
 `
 
-const StMaintbtn = styled.button `
-  margin : 20px;
-  padding : 20px;
-  width : 50rem;
-  height : 9rem;
-  font-size : 4rem;
-  /* border : none; */
-  border-color: #dddddd;
-  border-radius : 20px;
-  background-color : #dddddd;
-  cursor : pointer;
-  text-align : center;
-`
-
 const Stdiv = styled.div `
   padding : 0 auto;
-  margin : 0 auto;
-
+  margin : 10px auto 50px auto;
 `
