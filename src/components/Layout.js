@@ -10,9 +10,9 @@ export default Layout;
 
 const StLayout = styled.div `
   max-width: 1200px;
-  min-width:800px;
-  /* height: 800px; */
-  height: auto;
+  min-width: 800px;
+  height: 1500px;
+  /* height: auto; */
   display: flex;
   flex-direction: column;
   margin: auto;

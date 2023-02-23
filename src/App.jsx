@@ -1,11 +1,19 @@
 import React from 'react';
 import './App.css';
-//import Home from './pages/Home';
-//import About from './pages/About';
-import { Router } from 'react-router-dom';
+import Router from './shared/Router.js';
+import { QueryClient, QueryClientProvider } from 'react-query';
+
 
 const App = () => {
   return <Router />;
 };
+
+// const queryClient = new QueryClient();
+// const App = () => {
+//   return
+//   <QueryClientProvider client={queryClient}>
+//     <Router />;
+//   </QueryClientProvider>
+// };
 
 export default App;

@@ -2,61 +2,85 @@ import React, { useEffect , useState} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { DetailTodo } from '../redux /modules/Todos';
-import Modal from '../components/Modal';
+import Header from './Header';
+import { __getTodoAboutThunk, __editTodoThunk } from '../redux /modules/Todos';
+import Layout from '../components/Layout';
+
 
 function About () {
   const dispatch = useDispatch();
-  // const {todo} = useSelector((state) => state.todos);
-  const todo = useSelector((state) => state.todos.todo);
-  //console.log(todo)
-
   const { id } = useParams();
   const navigate = useNavigate();
 
+  const todoList = useSelector((state) => state.todos.todos);
+  const todo_Title = useSelector((state) => state.todos.todos.title);
+  const todo_Content = useSelector((state) => state.todos.todos.content);
+  const todo_Name = useSelector((state) => state.todos.todos.username);
+
+  const [updateTodo, setUpdateTodo] = useState('');
+  const [isEditMode, setIsEditMode] = useState(false);
+
   useEffect (()=> {
-    dispatch ( DetailTodo(id) );
+    dispatch ( __getTodoAboutThunk(id) );
   }, [dispatch, id]);
 
-  const [modalOpen, setModalOpen] = useState(false);
-
-  const openModal = () => {
-    setModalOpen(true);
-  };
-  const closeModal = () => {
-    setModalOpen(false);
-  };
+  const onSaveBtnHandler = () => {
+    if(updateTodo.trim() === ''){
+      return alert ('내용을 입력하세요')
+    }
+    dispatch(
+      __editTodoThunk({
+        ...todoList,
+        content : updateTodo,
+      })
+    );
+    setIsEditMode(false);  
+  }
 
   return (
     <StContainer>
-      
-      {/* <Stdeheader>
-        <div> 🔴 🟡 🟢 My Todo List </div>
-        <div> React ➕ ❏ </div>
-      </Stdeheader> */}
-      
-      <Stdeheader> 
-        <React.Fragment>
-        <div> 🔴 🟡 🟢 My Todo List </div>
-        {/* <div> React ➕ ❏ </div> */}
-        
-          <Stmodalbtn onClick={openModal}>React ➕ </Stmodalbtn>
-          {/* header 부분에 텍스트를 입력한다. */}
-          <Stmodal open={modalOpen} close={closeModal} header="My Todo-list">
-            {/* Modal.js <main> {props.children} </main>에 내용이 입력된다.*/}
-            This is my Todo-list! 
-          </Stmodal>
-        </React.Fragment>
-      </Stdeheader>
-  
-
-
+    <Header />
+    <Layout>
       <StDetail>
-        <Stdeid> {id} </Stdeid>
-        <Stdetitle> {todo.title} </Stdetitle>
-        <Stdecontent> {todo.content} </Stdecontent>
-        <Stprebtn onClick={()=> {navigate("/");}}> 이전으로 </Stprebtn>
+        {/* 상세페이지영역 */}
+        <div name='basic'>
+          <Stdeid> id : {id}</Stdeid>
+          <Stdecontent> name : {todo_Name} </Stdecontent>
+          <Stdetitle> title : {todo_Title} </Stdetitle>
+        </div>
+        {/* 수정영역 */}
+        <div name='edit-mode'>
+          {isEditMode? (
+            <>
+              <StTxtarea
+                type='text'
+                name='content'
+                value={updateTodo}
+                onChange={(event)=> {
+                  setUpdateTodo(event.target.value);
+              }} />
+            </>
+          ) : (
+            <Stdetitle> content : {todo_Content} </Stdetitle>
+          )
+        }
+        </div>
+        {/* 버튼영역 */}
+        <div name= 'btns'>
+        {isEditMode? (
+          <>
+            <Stprebtn className="editbitn" onClick={onSaveBtnHandler}> 저장 </Stprebtn>
+          </>
+        ):(
+          <>
+            <Stprebtn onClick={()=> {navigate("/list");}}> 이전으로 </Stprebtn>
+            <Stprebtn className="editbitn" onClick={()=> setIsEditMode(true)}> 수정 </Stprebtn>
+          </>
+        )}
+        </div>
+        
       </StDetail>
+      </Layout>
     </StContainer>
   )
 }
@@ -78,7 +102,7 @@ const StDetail = styled.div`
   border-radius: 20px;
   background-color: #dddddd;
   padding: 15px;
-  margin: 100px auto;
+  margin: 50px auto;
 `
 
 const Stdeid = styled.div `
@@ -86,17 +110,7 @@ const Stdeid = styled.div `
   padding: 10px 20px;
   font-weight: bold;
 `
-const Stdeheader = styled.div`
-  display: flex;
-  height : 20px;
-  background-color: #e1e1e1;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px;
-  font-size: 20px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
-`
+
 const Stdetitle = styled.div `
   /* background-color : gray; */
   font-size : 35px;
@@ -115,31 +129,23 @@ const Stdecontent = styled.div `
 `
 
 const Stprebtn = styled.button `
-  width : 100px;
-  height: 30px;
-  font-size : 15px;
+  width : 8rem;
+  height: 40px;
+  font-size : 20px;
   font-weight: bold;
   color:  #009227;
   border: none;  
   border-radius: 10px;
-  margin: 10px 20px;
+  margin: 0 30px 20px 30px;
   cursor : pointer;
 `
-const Stmodal = styled(Modal) `
-  display: none;
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 99;
-  background-color: rgba(0, 0, 0, 0.6);
-`
 
-const Stmodalbtn = styled.button `
-  outline: none;
-  cursor: pointer;
-  border: 0;
-  font-size: 20px;
-  background-color : #e1e1e1;
+const StTxtarea = styled.textarea`
+  font-size : 30px;
+  margin : 20px 35px;
+  height : 20rem;
+  width : 45rem;
+  border : none;
+  border-radius : 20px;
+  padding : 10px;
 `

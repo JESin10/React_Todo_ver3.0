@@ -1,98 +1,104 @@
-// value 만들기
-const ADD_TODO = "ADD_TODO";
-const DELETE_TODO = "DELETE_TODO";
-const EDIT_TODO = 'EDIT_TODO';
-const DETAIL_TODO = 'DETAIL_TODO';
+import axios from "axios";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
+// 전체 조회하기
+export const __getTodoThunk = createAsyncThunk(
+  "GET_TODO",
+  async(payload, thunkAPI) => {
+    try {
+      const {data} = await axios.get("http://localhost:4000/todos");
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);    
+    }
+  }
+);
 
-// 추가 액션크리에이터
-export const AddTodo = (payload) => {
-  return {type : ADD_TODO, payload};
-};
-// 삭제 액션크리에이터
-export const DeleteTodo = (payload) => {
-  return {type : DELETE_TODO, payload};
-};
+// 추가하기
+export const __addTodoThunk = createAsyncThunk(
+  "ADD_TODO",
+  async(payload, thunkAPI) => {
+    try {
+      const {data} = await axios.post("http://localhost:4000/todos", payload);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);    
+    }
+  }
+);
 
-// 완료-취소 액션크리에이터
-export const EditTodo = (payload) => {
-  return {type : EDIT_TODO, payload};
-};
+// 삭제하기
+export const __deleteTodoThunk = createAsyncThunk(
+  "DELETE_TODO",
+  async(payload, thunkAPI) => {
+    try {
+      // const response = axios.delete(`http://localhost:4000/todos/${payload}`);
+      axios.delete(`http://localhost:4000/todos/${payload}`);
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);    
+    }
+  }
+);
 
-// 해당하는 상세페이지 불러오기 액션크리에이터
-export const DetailTodo = (payload) => {
-  return {type : DETAIL_TODO, payload};
-};
+// 상세보기 조회
+export const __getTodoAboutThunk = createAsyncThunk(
+  "GET_TODO_ABOUT",
+  async(payload, thunkAPI) => {
+    try {
+      const {data} = await axios.get(`http://localhost:4000/todos/${payload}`);
+      return thunkAPI.fulfillWithValue(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);    
+    }
+  }
+);
+
+// 수정하기
+export const __editTodoThunk = createAsyncThunk(
+  "EDIT_TODO",
+  async(payload, thunkAPI) => {
+    try {
+      axios.patch(`http://localhost:4000/todos/${payload.id}`,payload);
+      return thunkAPI.fulfillWithValue(payload);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);    
+    }
+  }
+);
 
 //초기 스테이트
 const initialState = {
-  todos : [
-    {
-    id : 'id1',
-    title : "react 공부하기",
-    content : "열심히하기!",
-    isDone : false
+  todos: [],
+  error : null
+};
+
+// add, delete, edit => reducers, get => extrareducers
+export const todoSlice = createSlice({
+  name: "todos",
+  initialState,
+  reducers: {},
+  extraReducers: {
+    [__getTodoThunk.fulfilled] : (state, action) =>{
+      state.todos = action.payload
     },
-    {
-      id : 'id2',
-      title : "redux 공부하기",
-      content : "열심히하기!!",
-      isDone : true
+    [__addTodoThunk.fulfilled] : (state, action) =>{
+      state.todos.push(action.payload);
     },
-  ],
-  todo: {
-    id: '0',
-    title : '',
-    content : '',
-    isDone : false
+    [__getTodoAboutThunk.fulfilled] : (state, action) =>{
+      state.todos = action.payload
+    },
+    [__deleteTodoThunk.fulfilled] : (state, action) =>{
+      const result = state.todos.filter((todo) => todo.id !==action.payload);
+      state.todos=result
+    },
+    [__editTodoThunk.fulfilled] : (state, action) =>{
+      state.todos = action.payload
+    }
+    // [__deleteTodoThunk.pending] : () => {},
+
   },
-};
+});
 
-const todos = (state = initialState, action) =>{
-
-  switch (action.type) {
-    case ADD_TODO :
-      return {
-        ...state,
-        todos : [...state.todos, action.payload],
-      };
-
-      case DELETE_TODO :
-      return {
-        ...state,
-        todos : state.todos.filter ((todo) => todo.id !==action.payload),
-    };
-
-    case EDIT_TODO :
-      return {
-        ...state,
-        todos : state.todos.map((todo) => {
-          if(todo.id === action.payload){
-            return {
-              ...todo,
-              isDone : !todo.isDone,
-            };
-          } else {
-            return todo; 
-          }
-        }),
-      };
-      
-      // find의 경우 해당값을 제외하고 다 보여주지 않기 때문에, 
-      // 기존배열인 todos가 아니라 빈배열인 todo에 넣어주어야 함. todos로 하면 이전값이 없어져서 안보임?
-      
-      case DETAIL_TODO :
-      return {
-        ...state,
-        todo : state.todos.find((todo) => {
-          return todo.id === action.payload;
-
-        }),
-      };
-
-    default :
-      return state;
-  }
-};
-
-export default todos;
+export default todoSlice.reducer;
+export const { DeleteTodo, EditTodo } = todoSlice.actions;
