@@ -7,6 +7,8 @@ export const __getTodoThunk = createAsyncThunk(
   async(payload, thunkAPI) => {
     try {
       const {data} = await axios.get(`${process.env.REACT_APP_SERVER_URL}/todos`);
+      // const {data} = await axios.get(`${process.env.REACT_APP_VERCEL_SERVER_URL}`);
+
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -20,6 +22,8 @@ export const __addTodoThunk = createAsyncThunk(
   async(payload, thunkAPI) => {
     try {
       const {data} = await axios.post(`${process.env.REACT_APP_SERVER_URL}/todos`, payload);
+      // const {data} = await axios.post(`${process.env.REACT_APP_VERCEL_SERVER_URL}`, payload);
+
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -32,8 +36,9 @@ export const __deleteTodoThunk = createAsyncThunk(
   "DELETE_TODO",
   async(payload, thunkAPI) => {
     try {
-      // const response = axios.delete(`http://localhost:4000/todos/${payload}`);
       axios.delete(`${process.env.REACT_APP_SERVER_URL}/todos/${payload}`);
+      // axios.delete(`${process.env.REACT_APP_VERCEL_SERVER_URL}/${payload}`);
+
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -47,6 +52,8 @@ export const __getTodoAboutThunk = createAsyncThunk(
   async(payload, thunkAPI) => {
     try {
       const {data} = await axios.get(`${process.env.REACT_APP_SERVER_URL}/todos/${payload}`);
+      // const {data} = await axios.get(`${process.env.REACT_APP_VERCEL_SERVER_URL}/${payload}`);
+
       return thunkAPI.fulfillWithValue(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    
@@ -60,6 +67,8 @@ export const __editTodoThunk = createAsyncThunk(
   async(payload, thunkAPI) => {
     try {
       axios.patch(`${process.env.REACT_APP_SERVER_URL}/todos/${payload.id}`,payload);
+      // axios.patch(`${process.env.REACT_APP_VERCEL_SERVER_URL}/${payload.id}`,payload);
+
       return thunkAPI.fulfillWithValue(payload);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);    

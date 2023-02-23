@@ -9,9 +9,8 @@ function InputForm () {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const {isSuccess} = useSelector((state) => state.todos);
-  const res = useSelector((state) => state.todos);
-  console.log(res.isSuccess)
+  // const {isSuccess} = useSelector((state) => state.todos);
+  // const res = useSelector((state) => state.todos);
 
   const [newTodo, setNewTodo] = useState(
     {username : '',

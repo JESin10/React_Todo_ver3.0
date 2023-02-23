@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-	dataURL: "http://localhost:4000",
+	// dataURL: "http://localhost:4000",
+  serverURL : "https://json-server-vercel-alpha-lac.vercel.app/todos"
 //  timeout : 1,    // 단위가 1ms(1 밀리세컨)이므로 수신할 수 있는 시간이 안되서 수신 오류가 남.
 });
 
