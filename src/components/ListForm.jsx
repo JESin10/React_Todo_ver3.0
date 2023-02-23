@@ -13,7 +13,6 @@ function ListForm() {
 
   useEffect(() => {
     dispatch(__getTodoThunk());
-    console.log(todoList)
   }, [dispatch, todoList.length]);
 
   const onDelete = (id) => {
